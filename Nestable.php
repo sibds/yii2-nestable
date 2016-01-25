@@ -11,10 +11,11 @@ class Nestable extends \slatiusa\nestable\Nestable
 
     public function init(){
         if(!is_null($this->autoQuery)){
+            $auto = $this->autoQuery->roots();
             if($this->rootable)
-                $this->query = $this->autoQuery->roots();
+                $this->query = $auto;
             else
-                $this->query = $this->autoQuery->roots()->one()?$this->autoQuery->roots()->one()->children(1):null;
+                $this->query = $auto->one()?$auto->one()->children(1):null;
         }
 
 
