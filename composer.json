@@ -1,0 +1,22 @@
+{
+    "name": "sibds/yii2-nestable",
+    "description": "Extend Nestable(https://github.com/ASlatius/yii2-nestable) for internal projects",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","nestable"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vadim Mazur",
+            "email": "mazurva@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "slatiusa/yii2-nestable": "^1.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "sibds\\widgets\\": ""
+        }
+    }
+}
