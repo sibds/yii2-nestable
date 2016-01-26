@@ -22,6 +22,8 @@ class Nestable extends \slatiusa\nestable\Nestable
     public $hideButtons = false;
 
     public function init(){
+        $this->registerTranslations();
+
         if(!is_null($this->autoQuery)){
             $auto = $this->autoQuery->roots();
             if($this->rootable)
@@ -36,15 +38,34 @@ class Nestable extends \slatiusa\nestable\Nestable
 
         if(is_null($this->buttons)){
             $this->buttons = [
-                ['label' => Icon::show('pencil', [], Icon::FA), 'options'=>['title'=>'Редактирование']],
-                ['label' => Icon::show('lock', [], Icon::FA), 'options'=>['title'=>'Заблокировать']],
-                ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>'Разблокировать']],
-                ['label' => Icon::show('trash', [], Icon::FA), 'options'=>['title'=>'В корзину']],
-                ['label' => Icon::show('remove', [], Icon::FA), 'options'=>['title'=>'Удалить']],
+                ['label' => Icon::show('pencil', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Edit')]],
+                ['label' => Icon::show('lock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Lock')]],
+                ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Unlock')]],
+                ['label' => Icon::show('trash', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'To trash')]],
+                ['label' => Icon::show('share-square-o', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Restore')]],
+                ['label' => Icon::show('remove', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Delete')]],
             ];
         }
 
         parent::init();
+    }
+
+    public function registerTranslations()
+    {
+        $i18n = Yii::$app->i18n;
+        $i18n->translations['widgets/nestable/*'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'sourceLanguage' => 'en-US',
+            'basePath' => '@vendors/sibds/widgets/messages',
+            'fileMap' => [
+                'widgets/nestable/messages' => 'messages.php',
+            ],
+        ];
+    }
+
+    public static function t($category, $message, $params = [], $language = null)
+    {
+        return Yii::t('widgets/nestable/' . $category, $message, $params, $language);
     }
 
     /**
