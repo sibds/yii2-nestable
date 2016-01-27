@@ -42,7 +42,7 @@ class Nestable extends \slatiusa\nestable\Nestable
             $this->buttons = [
                 ['label' => Icon::show('pencil', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Edit')]],
                 ['label' => Icon::show('copy', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Copy')],
-                    'visible' => $model->hasMethod('copy')],
+                    'visible' => $model->hasMethod('duplicate')],
                 ['label' => Icon::show('lock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Lock')],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&!$data->locked;}],
                 ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Unlock')],
