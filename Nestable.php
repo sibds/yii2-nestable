@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 use kartik\icons\Icon;
+use yii\helpers\Url;
 
 class Nestable extends \slatiusa\nestable\Nestable
 {
@@ -40,18 +41,32 @@ class Nestable extends \slatiusa\nestable\Nestable
         if(is_null($this->buttons)){
             $model = new $this->query->modelClass;
             $this->buttons = [
-                ['label' => Icon::show('pencil', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Edit')]],
-                ['label' => Icon::show('copy', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Copy')],
+                ['label' => Icon::show('pencil', [], Icon::FA),
+                    'url' => function($data){ return Url::toRoute(['update', 'id'=>$data->primaryKey]);},
+                    'options'=>['title'=>self::t('messages', 'Edit')]],
+                ['label' => Icon::show('copy', [], Icon::FA),
+                    'url' => function($data){ return Url::toRoute(['duplicate', 'id'=>$data->primaryKey]);},
+                    'options'=>['title'=>self::t('messages', 'Copy')],
                     'visible' => $model->hasMethod('duplicate')],
-                ['label' => Icon::show('lock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Lock')],
+                ['label' => Icon::show('lock', [], Icon::FA),
+                    'url' => function($data){ return Url::toRoute(['lock', 'id'=>$data->primaryKey]);},
+                    'options'=>['title'=>self::t('messages', 'Lock')],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&!$data->locked;}],
-                ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Unlock')],
+                ['label' => Icon::show('unlock', [], Icon::FA),
+                    'url' => function($data){ return Url::toRoute(['unlock', 'id'=>$data->primaryKey]);},
+                    'options'=>['title'=>self::t('messages', 'Unlock')],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&$data->locked;}],
-                ['label' => Icon::show('trash', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'To trash')],
+                ['label' => Icon::show('trash', [], Icon::FA),
+                    'url' => function($data){ return Url::toRoute(['delete', 'id'=>$data->primaryKey]);},
+                    'options'=>['title'=>self::t('messages', 'To trash')],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&!$data->removed;}],
-                ['label' => Icon::show('share-square-o', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Restore')],
+                ['label' => Icon::show('share-square-o', [], Icon::FA),
+                    'url' => function($data){ return Url::toRoute(['restore', 'id'=>$data->primaryKey]);},
+                    'options'=>['title'=>self::t('messages', 'Restore')],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&$data->removed;}],
-                ['label' => Icon::show('remove', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Delete')],
+                ['label' => Icon::show('remove', [], Icon::FA),
+                    'url' => function($data){ return Url::toRoute(['delete', 'id'=>$data->primaryKey]);},
+                    'options'=>['title'=>self::t('messages', 'Delete')],
                     'visible' => function($data){
                         if($data->hasAttribute('removed')){
                             if(is_bool($data->removed))
@@ -116,22 +131,40 @@ class Nestable extends \slatiusa\nestable\Nestable
             }
         }
 
-
         if(!is_null($this->buttons)&&!$this->hideButtons){
             $template = '<div class="pull-right" style="margin-top: -2px;">{buttons}</div>';
-            foreach($this->buttons as &$button){
+            $myButtons = $this->buttons;
+            foreach($myButtons as $key => &$button){
+                if(is_string($button))
+                    continue;
+
                 if(array_key_exists('visible', $button)){
                     $name = ArrayHelper::getValue($button, 'visible');
                     if(is_callable($name)){
                         $button['visible'] = call_user_func($name, $data);
                     }
+                    if(!$button['visible']&&!is_null($key)){
+                        unset($myButtons[$key]);
+                        continue;
+                    }
                 }
+                $label = $button['label'];
+                $url = ArrayHelper::getValue($button, 'url', '#');
+                unset($button['label']);
+                if(isset($button['url']))
+                    if(is_callable($url))
+                        $url = call_user_func($url, $data);
+
+                $options = $button['options'];
+                $options['class'] = 'btn btn-default';
+
+                $button = Html::a($label, $url, $options);
             }
             $row .= strtr($template, ['{buttons}' =>
                 ButtonGroup::widget([
                     'encodeLabels'  => false,
                     'options' => ['class' => 'btn-group-xs'],
-                    'buttons' => $this->buttons])]);
+                    'buttons' => $myButtons])]);
         }
 
         return $row;
