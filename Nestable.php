@@ -43,7 +43,7 @@ class Nestable extends \slatiusa\nestable\Nestable
             $this->buttons = [
                 ['label' => Icon::show('pencil', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute(['update', 'id'=>$data->primaryKey]);},
-                    'options'=>['title'=>self::t('messages', 'Edit')]],
+                    'options'=>['title'=>self::t('messages', 'Edit'), 'data-pjax' => 0]],
                 ['label' => Icon::show('copy', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute(['duplicate', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Copy')],
@@ -156,7 +156,7 @@ class Nestable extends \slatiusa\nestable\Nestable
                         $url = call_user_func($url, $data);
 
                 $options = $button['options'];
-                $options['class'] = 'btn btn-default';
+                $options['class'] = 'btn btn-default'.(isset($options['class'])?' '.$options['class']:'');
 
                 $button = Html::a($label, $url, $options);
             }
