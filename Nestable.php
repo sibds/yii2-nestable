@@ -48,16 +48,16 @@ class Nestable extends \slatiusa\nestable\Nestable
                 ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Unlock')],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&$data->locked;}],
                 ['label' => Icon::show('trash', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'To trash')],
-                    'visible' => function($data){ return $data->hasAttribute('deleted')&&!$data->deleted;}],
+                    'visible' => function($data){ return $data->hasAttribute('removed')&&!$data->removed;}],
                 ['label' => Icon::show('share-square-o', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Restore')],
-                    'visible' => function($data){ return $data->hasAttribute('deleted')&&$data->deleted;}],
+                    'visible' => function($data){ return $data->hasAttribute('removed')&&$data->removed;}],
                 ['label' => Icon::show('remove', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Delete')],
                     'visible' => function($data){
-                        if($data->hasAttribute('deleted')){
-                            if(is_bool($data->deleted))
-                                return $data->deleted;
+                        if($data->hasAttribute('removed')){
+                            if(is_bool($data->removed))
+                                return $data->removed;
 
-                            return !is_null($data->deleted);
+                            return !is_null($data->removed);
                         }
                         return true;
                     }],
