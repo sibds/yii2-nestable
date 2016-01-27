@@ -38,6 +38,13 @@ class Nestable extends \slatiusa\nestable\Nestable
             $this->modelOptions = ['name' => function($data){return $this->prepareRow($data);}];
         }
 
+
+        if(count($this->columns)==1&&!$this->hideButtons){
+            $this->columns['url'] = function($data){
+                return Url::toRoute(['update', 'id' => $data->primaryKey]);
+            };
+        }
+
         if(is_null($this->buttons)){
             $model = new $this->query->modelClass;
             $this->buttons = [
@@ -122,7 +129,7 @@ class Nestable extends \slatiusa\nestable\Nestable
         }else{
             $name = ArrayHelper::getValue($this->columns, 'url');
             if(is_callable($name)){
-                $row = Html::a($content, call_user_func($name, $data));
+                $row = Html::a($content, call_user_func($name, $data), ['data-pjax'=>0]);
             }else{
                 $row = Html::a($content,
                     $data->hasAttribute($name)?
