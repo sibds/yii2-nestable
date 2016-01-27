@@ -38,14 +38,29 @@ class Nestable extends \slatiusa\nestable\Nestable
         }
 
         if(is_null($this->buttons)){
+            $model = new $this->query->modelClass;
             $this->buttons = [
                 ['label' => Icon::show('pencil', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Edit')]],
-                ['label' => Icon::show('copy', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Copy')]],
-                ['label' => Icon::show('lock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Lock')]],
-                ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Unlock')]],
-                ['label' => Icon::show('trash', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'To trash')]],
-                ['label' => Icon::show('share-square-o', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Restore')]],
-                ['label' => Icon::show('remove', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Delete')]],
+                ['label' => Icon::show('copy', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Copy')],
+                    'visible' => $model->hasMethod('duplicate')],
+                ['label' => Icon::show('lock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Lock')],
+                    'visible' => function($data){ return $data->hasAttribute('locked')&&!$data->locked;}],
+                ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Unlock')],
+                    'visible' => function($data){ return $data->hasAttribute('locked')&&$data->locked;}],
+                ['label' => Icon::show('trash', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'To trash')],
+                    'visible' => function($data){ return $data->hasAttribute('removed')&&!$data->removed;}],
+                ['label' => Icon::show('share-square-o', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Restore')],
+                    'visible' => function($data){ return $data->hasAttribute('removed')&&$data->removed;}],
+                ['label' => Icon::show('remove', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Delete')],
+                    'visible' => function($data){
+                        if($data->hasAttribute('removed')){
+                            if(is_bool($data->removed))
+                                return $data->removed;
+
+                            return !is_null($data->removed);
+                        }
+                        return true;
+                    }],
             ];
         }
 
@@ -104,6 +119,14 @@ class Nestable extends \slatiusa\nestable\Nestable
 
         if(!is_null($this->buttons)&&!$this->hideButtons){
             $template = '<div class="pull-right" style="margin-top: -2px;">{buttons}</div>';
+            foreach($this->buttons as &$button){
+                if(array_key_exists('visible', $button)){
+                    $name = ArrayHelper::getValue($button, 'visible');
+                    if(is_callable($name)){
+                        $button['visible'] = call_user_func($name, $data);
+                    }
+                }
+            }
             $row .= strtr($template, ['{buttons}' =>
                 ButtonGroup::widget([
                     'encodeLabels'  => false,
