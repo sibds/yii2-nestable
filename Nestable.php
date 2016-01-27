@@ -40,6 +40,7 @@ class Nestable extends \slatiusa\nestable\Nestable
         if(is_null($this->buttons)){
             $this->buttons = [
                 ['label' => Icon::show('pencil', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Edit')]],
+                ['label' => Icon::show('copy', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Copy')]],
                 ['label' => Icon::show('lock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Lock')]],
                 ['label' => Icon::show('unlock', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'Unlock')]],
                 ['label' => Icon::show('trash', [], Icon::FA), 'options'=>['title'=>self::t('messages', 'To trash')]],
