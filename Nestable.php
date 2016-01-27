@@ -105,7 +105,7 @@ class Nestable extends \slatiusa\nestable\Nestable
         if(count($this->columns)<2){
             $row = $content;
         }else{
-            $name = ArrayHelper::getValue($this->columns, 'url', 'url');
+            $name = ArrayHelper::getValue($this->columns, 'url');
             if(is_callable($name)){
                 $row = Html::a($content, call_user_func($name, $data));
             }else{
