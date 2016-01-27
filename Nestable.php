@@ -91,15 +91,14 @@ class Nestable extends \slatiusa\nestable\Nestable
             $row = $content;
         }else{
             $name = ArrayHelper::getValue($this->columns, 'url', 'url');
-            if(is_string($name)){
+            if(is_callable($name)){
+                $row = Html::a($content, call_user_func($name, $data));
+            }else{
                 $row = Html::a($content,
                     $data->hasAttribute($name)?
                         $data->{$name}:
                         $name);
-            }else if(is_callable($name)) {
-                $row = Html::a($content, call_user_func($name, $data));
             }
-
         }
 
 
