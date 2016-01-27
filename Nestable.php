@@ -2,6 +2,7 @@
 
 namespace sibds\widgets;
 
+use \Yii;
 use kartik\icons\FontAwesomeAsset;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\ArrayHelper;
@@ -52,20 +53,20 @@ class Nestable extends \slatiusa\nestable\Nestable
 
     public function registerTranslations()
     {
-        $i18n = Yii::$app->i18n;
-        $i18n->translations['widgets/nestable/*'] = [
+        $i18n = \Yii::$app->i18n;
+        $i18n->translations['sibds/widgets/nestable/*'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'sourceLanguage' => 'en-US',
-            'basePath' => '@vendors/sibds/widgets/messages',
+            'basePath' => '@vendor/sibds/yii2-nestable/messages',
             'fileMap' => [
-                'widgets/nestable/messages' => 'messages.php',
+                'sibds/widgets/nestable/messages' => 'messages.php',
             ],
         ];
     }
 
     public static function t($category, $message, $params = [], $language = null)
     {
-        return Yii::t('widgets/nestable/' . $category, $message, $params, $language);
+        return Yii::t('sibds/widgets/nestable/' . $category, $message, $params, $language);
     }
 
     /**
