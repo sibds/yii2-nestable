@@ -51,10 +51,10 @@ class Nestable extends \slatiusa\nestable\Nestable
                 ['label' => Icon::show('pencil', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute(['update', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Edit'), 'data-pjax' => 0]],
-                ['label' => Icon::show('copy', [], Icon::FA),
+                /*['label' => Icon::show('copy', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute(['duplicate', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Copy')],
-                    'visible' => $model->hasMethod('duplicate')],
+                    'visible' => $model->hasMethod('duplicate')],*/
                 ['label' => Icon::show('lock', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute(['lock', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Lock')],
