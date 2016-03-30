@@ -22,6 +22,8 @@ class Nestable extends \slatiusa\nestable\Nestable
     public $buttons = null;
 
     public $hideButtons = false;
+    
+    public $updateAction = 'update';
 
     public function init(){
         $this->registerTranslations();
@@ -41,7 +43,7 @@ class Nestable extends \slatiusa\nestable\Nestable
 
         if(count($this->columns)==1&&!$this->hideButtons){
             $this->columns['url'] = function($data){
-                return Url::toRoute(['update', 'id' => $data->primaryKey]);
+                return Url::toRoute([$this->updateAction, 'id' => $data->primaryKey]);
             };
         }
 
