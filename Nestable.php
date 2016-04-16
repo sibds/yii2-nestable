@@ -23,8 +23,8 @@ class Nestable extends \slatiusa\nestable\Nestable
 
     public $hideButtons = false;
     
-    public $updateAction = 'update';
-
+    public $driveController = '';
+    
     public function init(){
         $this->registerTranslations();
 
@@ -43,7 +43,7 @@ class Nestable extends \slatiusa\nestable\Nestable
 
         if(count($this->columns)==1&&!$this->hideButtons){
             $this->columns['url'] = function($data){
-                return Url::toRoute([$this->updateAction, 'id' => $data->primaryKey]);
+                return Url::toRoute([$this->driveController.'update', 'id' => $data->primaryKey]);
             };
         }
 
@@ -51,30 +51,30 @@ class Nestable extends \slatiusa\nestable\Nestable
             $model = new $this->query->modelClass;
             $this->buttons = [
                 ['label' => Icon::show('pencil', [], Icon::FA),
-                    'url' => function($data){ return Url::toRoute(['update', 'id'=>$data->primaryKey]);},
+                    'url' => function($data){ return Url::toRoute([$this->driveController.'update', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Edit'), 'data-pjax' => 0]],
                 /*['label' => Icon::show('copy', [], Icon::FA),
-                    'url' => function($data){ return Url::toRoute(['duplicate', 'id'=>$data->primaryKey]);},
+                    'url' => function($data){ return Url::toRoute([$this->driveController.'duplicate', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Copy')],
                     'visible' => $model->hasMethod('duplicate')],*/
                 ['label' => Icon::show('lock', [], Icon::FA),
-                    'url' => function($data){ return Url::toRoute(['lock', 'id'=>$data->primaryKey]);},
+                    'url' => function($data){ return Url::toRoute([$this->driveController.'lock', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Lock')],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&!$data->locked;}],
                 ['label' => Icon::show('unlock', [], Icon::FA),
-                    'url' => function($data){ return Url::toRoute(['unlock', 'id'=>$data->primaryKey]);},
+                    'url' => function($data){ return Url::toRoute([$this->driveController.'unlock', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Unlock')],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&$data->locked;}],
                 ['label' => Icon::show('trash', [], Icon::FA),
-                    'url' => function($data){ return Url::toRoute(['delete', 'id'=>$data->primaryKey]);},
+                    'url' => function($data){ return Url::toRoute([$this->driveController.'delete', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'To trash')],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&!$data->removed;}],
                 ['label' => Icon::show('share-square-o', [], Icon::FA),
-                    'url' => function($data){ return Url::toRoute(['restore', 'id'=>$data->primaryKey]);},
+                    'url' => function($data){ return Url::toRoute([$this->driveController.'restore', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Restore')],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&$data->removed;}],
                 ['label' => Icon::show('remove', [], Icon::FA),
-                    'url' => function($data){ return Url::toRoute(['delete', 'id'=>$data->primaryKey]);},
+                    'url' => function($data){ return Url::toRoute([$this->driveController.'delete', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Delete')],
                     'visible' => function($data){
                         if($data->hasAttribute('removed')){
