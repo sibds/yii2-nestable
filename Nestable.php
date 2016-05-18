@@ -59,15 +59,28 @@ class Nestable extends \slatiusa\nestable\Nestable
                     'visible' => $model->hasMethod('duplicate')],*/
                 ['label' => Icon::show('lock', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'lock', 'id'=>$data->primaryKey]);},
-                    'options'=>['title'=>self::t('messages', 'Lock')],
+                    'options'=>[
+                        'title'=>self::t('messages', 'Lock'),
+                        'data-method' => 'POST',
+                        'data-pjax' => '0',
+                    ],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&!$data->locked;}],
                 ['label' => Icon::show('unlock', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'unlock', 'id'=>$data->primaryKey]);},
-                    'options'=>['title'=>self::t('messages', 'Unlock')],
+                    'options'=>[
+                        'title'=>self::t('messages', 'Unlock'),
+                        'data-method' => 'POST',
+                        'data-pjax' => '0',
+                    ],
                     'visible' => function($data){ return $data->hasAttribute('locked')&&$data->locked;}],
                 ['label' => Icon::show('trash', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'delete', 'id'=>$data->primaryKey]);},
-                    'options'=>['title'=>self::t('messages', 'To trash')],
+                    'options'=>[
+                        'title'=>self::t('messages', 'To trash'),
+                        'data-method' => 'POST',
+                        'data-pjax' => '0',
+                        'data-confirm'=>"Вы действительно хотите удалить этот элемент?",
+                    ],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&!$data->removed;}],
                 ['label' => Icon::show('share-square-o', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'restore', 'id'=>$data->primaryKey]);},
@@ -75,7 +88,12 @@ class Nestable extends \slatiusa\nestable\Nestable
                     'visible' => function($data){ return $data->hasAttribute('removed')&&$data->removed;}],
                 ['label' => Icon::show('remove', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'delete', 'id'=>$data->primaryKey]);},
-                    'options'=>['title'=>self::t('messages', 'Delete')],
+                    'options'=>[
+                        'title'=>self::t('messages', 'Delete'),
+                        'data-method' => 'POST',
+                        'data-pjax' => '0',
+                        'data-confirm'=>"Вы действительно хотите удалить этот элемент?",
+                    ],
                     'visible' => function($data){
                         if($data->hasAttribute('removed')){
                             if(is_bool($data->removed))
@@ -87,6 +105,8 @@ class Nestable extends \slatiusa\nestable\Nestable
                     }],
             ];
         }
+
+        $this->options['class'] = 'nestable'.(isset($this->options['class'])?' '.$this->options['class']:'');
 
         parent::init();
     }
