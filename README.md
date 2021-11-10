@@ -1,6 +1,6 @@
 Extend Nestable
 ===============
-Extend Nestable(https://github.com/ASlatius/yii2-nestable) for internal projects
+Extend Nestable(https://github.com/mazurva/yii2-nestable2) for internal projects
 
 Installation
 ------------
