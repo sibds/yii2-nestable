@@ -13,4 +13,6 @@ return [
     'To trash'=>'В корзину',
     'Restore'=>'Восстановить',
     'Delete'=>'Удалить',
+    'Do you really want to delete this item?' => 'Вы действительно хотите удалить этот элемент?',
+    'Do you really want to put this item in the trash?' => 'Вы действительно хотите поместить в корзину этот элемент?'
 ];

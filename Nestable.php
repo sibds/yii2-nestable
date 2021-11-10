@@ -83,7 +83,7 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
                         'title'=>self::t('messages', 'To trash'),
                         'data-method' => 'POST',
                         'data-pjax' => '0',
-                        'data-confirm'=>"Вы действительно хотите удалить этот элемент?",
+                        'data-confirm'=>self::t('messages', 'Do you really want to put this item in the trash?'),
                     ],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&!$data->removed;}],
                 ['label' => Icon::show('share-square', [], Icon::FA),
@@ -96,7 +96,7 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
                         'title'=>self::t('messages', 'Delete'),
                         'data-method' => 'POST',
                         'data-pjax' => '0',
-                        'data-confirm'=>"Вы действительно хотите удалить этот элемент?",
+                        'data-confirm'=>self::t('messages', 'Do you really want to delete this item?'),
                     ],
                     'visible' => function($data){return $data->hasAttribute('removed')&&$data->removed; }],
             ];
