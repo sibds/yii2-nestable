@@ -1,6 +1,6 @@
 {
     "name": "sibds/yii2-nestable",
-    "description": "Extend Nestable(https://github.com/ASlatius/yii2-nestable) for internal projects",
+    "description": "Extend Nestable2(https://github.com/mazurva/yii2-nestable2) for internal projects",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","nestable"],
     "license": "MIT",
