@@ -16,7 +16,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "mazurva/yii2-nestable2": "^2.0"
+        "mazurva/yii2-nestable2": "dev-master"
     },
     "autoload": {
         "psr-4": {
