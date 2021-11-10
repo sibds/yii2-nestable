@@ -11,7 +11,7 @@ use yii\bootstrap4\Html;
 use kartik\icons\Icon;
 use yii\helpers\Url;
 
-class Nestable extends \slatiusa\nestable\Nestable
+class Nestable extends \mazurva\nestable2\widgets\Nestable
 {
     public $autoQuery = null;
     public $rootable = true;
@@ -36,6 +36,7 @@ class Nestable extends \slatiusa\nestable\Nestable
                 $this->query = $auto->one()?$auto->one()->children(1):null;
         }
 
+
         if(is_null($this->modelOptions)){
             $this->modelOptions = ['name' => function($data){return $this->prepareRow($data);}];
         }
@@ -47,16 +48,19 @@ class Nestable extends \slatiusa\nestable\Nestable
             };
         }
 
+
         if(is_null($this->buttons)){
             $model = new $this->query->modelClass;
             $this->buttons = [
-                ['label' => Icon::show('pencil', [], Icon::FA),
+                ['label' => Icon::show('pencil-alt', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'update', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Edit'), 'data-pjax' => 0]],
-                /*['label' => Icon::show('copy', [], Icon::FA),
+                /*
+                ['label' => Icon::show('copy', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'duplicate', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Copy')],
-                    'visible' => $model->hasMethod('duplicate')],*/
+                    'visible' => $model->hasMethod('duplicate')],
+                */
                 ['label' => Icon::show('lock', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'lock', 'id'=>$data->primaryKey]);},
                     'options'=>[
@@ -82,11 +86,11 @@ class Nestable extends \slatiusa\nestable\Nestable
                         'data-confirm'=>"Вы действительно хотите удалить этот элемент?",
                     ],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&!$data->removed;}],
-                ['label' => Icon::show('share-square-o', [], Icon::FA),
+                ['label' => Icon::show('share-square', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'restore', 'id'=>$data->primaryKey]);},
                     'options'=>['title'=>self::t('messages', 'Restore')],
                     'visible' => function($data){ return $data->hasAttribute('removed')&&$data->removed;}],
-                ['label' => Icon::show('remove', [], Icon::FA),
+                ['label' => Icon::show('times', [], Icon::FA),
                     'url' => function($data){ return Url::toRoute([$this->driveController.'delete', 'id'=>$data->primaryKey]);},
                     'options'=>[
                         'title'=>self::t('messages', 'Delete'),
@@ -94,15 +98,7 @@ class Nestable extends \slatiusa\nestable\Nestable
                         'data-pjax' => '0',
                         'data-confirm'=>"Вы действительно хотите удалить этот элемент?",
                     ],
-                    'visible' => function($data){
-                        if($data->hasAttribute('removed')){
-                            if(is_bool($data->removed))
-                                return $data->removed;
-
-                            return !is_null($data->removed);
-                        }
-                        return true;
-                    }],
+                    'visible' => function($data){return $data->hasAttribute('removed')&&$data->removed; }],
             ];
         }
 
@@ -161,7 +157,7 @@ class Nestable extends \slatiusa\nestable\Nestable
         }
 
         if(!is_null($this->buttons)&&!$this->hideButtons){
-            $template = '<div class="pull-right" style="margin-top: -2px;">{buttons}</div>';
+            $template = '<div class="float-right">{buttons}</div>';
             $myButtons = $this->buttons;
             foreach($myButtons as $key => &$button){
                 if(is_string($button))
@@ -192,7 +188,7 @@ class Nestable extends \slatiusa\nestable\Nestable
             $row .= strtr($template, ['{buttons}' =>
                 ButtonGroup::widget([
                     'encodeLabels'  => false,
-                    'options' => ['class' => 'btn-group-xs'],
+                    'options' => ['class' => 'btn-group-sm'],
                     'buttons' => $myButtons])]);
         }
 
