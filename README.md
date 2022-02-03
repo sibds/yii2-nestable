@@ -2,6 +2,8 @@ Extend Nestable
 ===============
 Extend Nestable2(https://github.com/mazurva/yii2-nestable2) for internal projects
 
+![tree](https://user-images.githubusercontent.com/1152567/152440593-2d69b582-264d-4e90-97e7-a642fff01b3b.jpg)
+
 Installation
 ------------
 
