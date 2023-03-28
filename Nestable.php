@@ -4,9 +4,9 @@ namespace sibds\widgets;
 
 use \Yii;
 use kartik\icons\FontAwesomeAsset;
-use yii\bootstrap4\ButtonGroup;
+use yii\bootstrap5\ButtonGroup;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 use kartik\icons\Icon;
 use yii\helpers\Url;
