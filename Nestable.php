@@ -157,7 +157,7 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
         }
 
         if(!is_null($this->buttons)&&!$this->hideButtons){
-            $template = '<div class="float-right">{buttons}</div>';
+            $template = 'div class="float-end" style="margin-top: -7px;">{buttons}</div>';
             $myButtons = $this->buttons;
             foreach($myButtons as $key => &$button){
                 if(is_string($button))
