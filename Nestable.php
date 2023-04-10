@@ -22,6 +22,8 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
 
     public $columns = ['name' => 'name'];
     public $buttons = null;
+    
+    public $buttonsTemplate = '<div class="float-end" style="margin-top: -7px;">{buttons}</div>';
 
     public $hideButtons = false;
     
@@ -158,8 +160,7 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
             }
         }
 
-        if(!is_null($this->buttons)&&!$this->hideButtons){
-            $template = 'div class="float-end" style="margin-top: -7px;">{buttons}</div>';
+        if(!is_null($this->buttons)&&!$this->hideButtons){            
             $myButtons = $this->buttons;
             foreach($myButtons as $key => &$button){
                 if(is_string($button))
@@ -187,7 +188,7 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
 
                 $button = Html::a($label, $url, $options);
             }
-            $row .= strtr($template, ['{buttons}' =>
+            $row .= strtr($this->buttonsTemplate, ['{buttons}' =>
                 ButtonGroup::widget([
                     'encodeLabels'  => false,
                     'options' => ['class' => 'btn-group-sm'],
