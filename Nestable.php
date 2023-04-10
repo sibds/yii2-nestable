@@ -17,6 +17,8 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
     public $rootable = true;
 
     public $modelOptions = null;
+    
+    public $fontAwesome = true;
 
     public $columns = ['name' => 'name'];
     public $buttons = null;
@@ -130,7 +132,7 @@ class Nestable extends \mazurva\nestable2\widgets\Nestable
      */
     public function registerAssets() {
         $view = $this->getView();
-        FontAwesomeAsset::register($view);
+        if($this->fontAwesome) FontAwesomeAsset::register($view);
         NestableAsset::register($view);
         parent::registerAssets();
     }
